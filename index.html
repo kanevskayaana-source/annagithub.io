@@ -1163,23 +1163,20 @@
         }
         submitBtn.addEventListener('click', onSubmit);
     })();
-</script>
 <script>
-    // ---------- НАСТРОЙКИ TELEGRAM ----------
-    // ВСТАВЬТЕ ВАШИ ДАННЫЕ (замените на свои):
-    const BOT_TOKEN = '8895424066:AAHgtcHT7uuRIQkXbWWk39wrTkQXfxKr3b8';
-    const CHAT_ID = '5740743924';  // число из getUpdates
+    // ---------- ВАШИ ДАННЫЕ (уже правильные) ----------
+    const BOT_TOKEN = 'ВАШ_ТОКЕН_ОТ_BOTFATHER';   // ВСТАВЬТЕ ВАШ ТОКЕН
+    const CHAT_ID = '5740743924';                 // ВАШ Chat ID (уже правильный)
     
     // ---------- ФУНКЦИЯ ОТПРАВКИ В TELEGRAM ----------
     async function sendToTelegram(name, drinks, comment) {
-        // Формируем красивое сообщение
-        const message = `🪻 **НОВЫЙ ГОСТЬ!** 🪻
+        const message = `🪻 НОВЫЙ ГОСТЬ! 🪻
         
-👤 **Имя:** ${name}
-🥂 **Напитки:** ${drinks || 'не указаны'}
-💬 **Пожелания:** ${comment || 'нет'}
+👤 Имя: ${name}
+🥂 Напитки: ${drinks || 'не выбраны'}
+💬 Пожелания: ${comment || 'нет'}
 
-✨ *Ждём вас на свадьбе!* ✨`;
+✨ Ждём вас на свадьбе! ✨`;
         
         const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
         
@@ -1190,19 +1187,220 @@
                 body: JSON.stringify({
                     chat_id: CHAT_ID,
                     text: message,
-                    parse_mode: 'Markdown'
+                    parse_mode: 'HTML'
                 })
             });
             
-            if (response.ok) {
-                console.log('Уведомление отправлено в Telegram');
+            const result = await response.json();
+            if (result.ok) {
+                console.log('✅ Уведомление отправлено в Telegram');
+                return true;
             } else {
-                console.error('Ошибка отправки:', await response.text());
+                console.error('❌ Ошибка Telegram:', result.description);
+                return false;
             }
         } catch (error) {
-            console.error('Ошибка:', error);
+            console.error('❌ Ошибка:', error);
+            return false;
         }
     }
+    
+    // ---------- ПЕРЕХВАТЫВАЕМ КНОПКУ ----------
+    // Ждём полной загрузки страницы
+    window.addEventListener('load', function() {
+        const submitBtn = document.getElementById('submitPreferenceBtn');
+        
+        if (submitBtn) {
+            // Удаляем старые обработчики
+            const newBtn = submitBtn.cloneNode(true);
+            submitBtn.parentNode.replaceChild(newBtn, submitBtn);
+            
+            newBtn.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                // Собираем данные
+                const nameInput = document.getElementById('guestName');
+                const commentInput = document.getElementById('guestComment');
+                
+                const name = nameInput ? nameInput.value.trim() : '';
+                const comment = commentInput ? commentInput.value : '';
+                
+                // Собираем выбранные напитки
+                const selectedDrinks = [];
+                document.querySelectorAll('.drink-card.selected').forEach(card => {
+                    const drink = card.getAttribute('data-drink');
+                    if (drink) selectedDrinks.push(drink);
+                });
+                const drinksText = selectedDrinks.length > 0 ? selectedDrinks.join(', ') : 'не выбраны';
+                
+                // Проверка имени
+                if (!name) {
+                    showToast('Пожалуйста, укажите ваше имя');
+                    return;
+                }
+                
+                // Сохраняем в localStorage
+                try {
+                    localStorage.setItem('wedding_preferences', JSON.stringify({
+                        name: name,
+                        drinks: selectedDrinks,
+                        comment: comment,
+                        date: new Date().toISOString()
+                    }));
+                } catch(e) {}
+                
+                showToast('Отправляем...');
+                
+                // ОТПРАВЛЯЕМ В TELEGRAM
+                const success = await sendToTelegram(name, drinksText, comment);
+                
+                if (success) {
+                    showToast('Спасибо! Ваш ответ отправлен');
+                    // Очищаем форму (по желанию)
+                    if (nameInput) nameInput.value = '';
+                    if (commentInput) commentInput.value = '';
+                    document.querySelectorAll('.drink-card.selected').forEach(card => {
+                        card.classList.remove('selected');
+                    });
+                } else {
+
+
+showToast('Ошибка отправки. Попробуйте позже');
+                }
+            });
+        } else {
+            console.error('Кнопка с id="submitPreferenceBtn" не найдена');
+        }
+        
+        function showToast(msg) {
+            const toast = document.getElementById('toastMsg');
+            if (toast) {
+                toast.innerText = msg;
+                toast.style.opacity = '1';
+                setTimeout(() => toast.style.opacity = '0', 3000);
+            } else {
+                alert(msg);
+            }
+        }
+    });
+<script>
+    // ---------- ВАШИ ДАННЫЕ (уже правильные) ----------
+    const BOT_TOKEN = '8895424066:AAHgtcHT7uuRIQkXbWWk39wrTkQXfxKr3b8';
+    const CHAT_ID = '5740743924';
+    
+    // ---------- ФУНКЦИЯ ОТПРАВКИ В TELEGRAM ----------
+    async function sendToTelegram(name, drinks, comment) {
+        const message = `🪻 НОВЫЙ ГОСТЬ! 🪻
+        
+👤 Имя: ${name}
+🥂 Напитки: ${drinks || 'не выбраны'}
+💬 Пожелания: ${comment || 'нет'}
+
+✨ Ждём вас на свадьбе! ✨`;
+        
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'HTML'
+                })
+            });
+            
+            const result = await response.json();
+            if (result.ok) {
+                console.log('✅ Уведомление отправлено в Telegram');
+                return true;
+            } else {
+                console.error('❌ Ошибка Telegram:', result.description);
+                return false;
+            }
+        } catch (error) {
+            console.error('❌ Ошибка:', error);
+            return false;
+        }
+    }
+    
+    // ---------- ПЕРЕХВАТЫВАЕМ КНОПКУ ----------
+    // Ждём полной загрузки страницы
+    window.addEventListener('load', function() {
+        const submitBtn = document.getElementById('submitPreferenceBtn');
+        
+        if (submitBtn) {
+            // Удаляем старые обработчики
+            const newBtn = submitBtn.cloneNode(true);
+            submitBtn.parentNode.replaceChild(newBtn, submitBtn);
+            
+            newBtn.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                // Собираем данные
+                const nameInput = document.getElementById('guestName');
+                const commentInput = document.getElementById('guestComment');
+                
+                const name = nameInput ? nameInput.value.trim() : '';
+                const comment = commentInput ? commentInput.value : '';
+                
+                // Собираем выбранные напитки
+                const selectedDrinks = [];
+                document.querySelectorAll('.drink-card.selected').forEach(card => {
+                    const drink = card.getAttribute('data-drink');
+                    if (drink) selectedDrinks.push(drink);
+                });
+                const drinksText = selectedDrinks.length > 0 ? selectedDrinks.join(', ') : 'не выбраны';
+                
+                // Проверка имени
+                if (!name) {
+                    showToast('Пожалуйста, укажите ваше имя');
+                    return;
+                }
+                
+                // Сохраняем в localStorage
+                try {
+                    localStorage.setItem('wedding_preferences', JSON.stringify({
+                        name: name,
+                        drinks: selectedDrinks,
+                        comment: comment,
+                        date: new Date().toISOString()
+                    }));
+                } catch(e) {}
+                
+                showToast('Отправляем...');
+                
+                // ОТПРАВЛЯЕМ В TELEGRAM
+                const success = await sendToTelegram(name, drinksText, comment);
+                
+                if (success) {
+                    showToast('Спасибо! Ваш ответ отправлен');
+                    // Очищаем форму (по желанию)
+                    if (nameInput) nameInput.value = '';
+                    if (commentInput) commentInput.value = '';
+                    document.querySelectorAll('.drink-card.selected').forEach(card => {
+                        card.classList.remove('selected');
+                    });
+                } else {
+showToast('Ошибка отправки. Попробуйте позже');
+                }
+            });
+        } else {
+            console.error('Кнопка с id="submitPreferenceBtn" не найдена');
+        }
+        
+        function showToast(msg) {
+            const toast = document.getElementById('toastMsg');
+            if (toast) {
+                toast.innerText = msg;
+                toast.style.opacity = '1';
+                setTimeout(() => toast.style.opacity = '0', 3000);
+            } else {
+                alert(msg);
+            }
+        }
+    });
 </script>
 </body>
 </html>
