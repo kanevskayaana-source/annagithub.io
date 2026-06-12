@@ -1135,15 +1135,21 @@
         }
 
         function onSubmit() {
-            const name = guestName.value;
-            const comment = guestComment.value;
-            let drinksArray = Array.from(selectedDrinks);
-            if (drinksArray.length === 0 && savedPref && savedPref.drinks && savedPref.drinks.length > 0) {
-                savedPref.drinks.forEach(d => selectedDrinks.add(d));
-                updateDrinkUI();
-                drinksArray = Array.from(selectedDrinks);
-            }
-            savePref(drinksArray, name, comment);
+    const name = guestName.value;
+    const comment = guestComment.value;
+    let drinksArray = Array.from(selectedDrinks);
+    
+    if (drinksArray.length === 0 && savedPref && savedPref.drinks && savedPref.drinks.length > 0) {
+        savedPref.drinks.forEach(d => selectedDrinks.add(d));
+        updateDrinkUI();
+        drinksArray = Array.from(selectedDrinks);
+    }
+    
+    // Сохраняем в localStorage
+    savePref(drinksArray, name, comment);
+    
+    // ✨ ОТПРАВЛЯЕМ В TELEGRAM ✨
+    sendToTelegram(name, drinksArray.join(', '), comment);
         }
 
         drinkDivs.forEach(card => card.addEventListener('click', onDrinkClick));
@@ -1157,6 +1163,46 @@
         }
         submitBtn.addEventListener('click', onSubmit);
     })();
+</script>
+<script>
+    // ---------- НАСТРОЙКИ TELEGRAM ----------
+    // ВСТАВЬТЕ ВАШИ ДАННЫЕ (замените на свои):
+    const BOT_TOKEN = 'ВАШ_ТОКЕН_ОТ_BOTFATHER';
+    const CHAT_ID = 'ВАШ_CHAT_ID';  // число из getUpdates
+    
+    // ---------- ФУНКЦИЯ ОТПРАВКИ В TELEGRAM ----------
+    async function sendToTelegram(name, drinks, comment) {
+        // Формируем красивое сообщение
+        const message = `🪻 **НОВЫЙ ГОСТЬ!** 🪻
+        
+👤 **Имя:** ${name}
+🥂 **Напитки:** ${drinks || 'не указаны'}
+💬 **Пожелания:** ${comment || 'нет'}
+
+✨ *Ждём вас на свадьбе!* ✨`;
+        
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            });
+            
+            if (response.ok) {
+                console.log('Уведомление отправлено в Telegram');
+            } else {
+                console.error('Ошибка отправки:', await response.text());
+            }
+        } catch (error) {
+            console.error('Ошибка:', error);
+        }
+    }
 </script>
 </body>
 </html>
