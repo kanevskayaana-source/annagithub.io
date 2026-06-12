@@ -87,6 +87,7 @@
             background: linear-gradient(145deg, #0d0d0d 0%, #0a0a0a 50%, #080808 100%);
         }
 
+        /* Крупные световые блики */
         .light-glint {
             position: absolute;
             pointer-events: none;
@@ -97,13 +98,27 @@
         }
 
         @keyframes floatGlint {
-            0% { transform: translate(0%, 0%) scale(0.8); opacity: 0; }
-            25% { opacity: 0.35; }
-            50% { opacity: 0.5; transform: translate(3%, -2%) scale(1.1); }
-            75% { opacity: 0.4; }
-            100% { transform: translate(-2%, 4%) scale(0.9); opacity: 0; }
+            0% {
+                transform: translate(0%, 0%) scale(0.8);
+                opacity: 0;
+            }
+            25% {
+                opacity: 0.35;
+            }
+            50% {
+                opacity: 0.5;
+                transform: translate(3%, -2%) scale(1.1);
+            }
+            75% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translate(-2%, 4%) scale(0.9);
+                opacity: 0;
+            }
         }
 
+        /* Маленькие мерцающие искры */
         .sparkle {
             position: absolute;
             pointer-events: none;
@@ -113,141 +128,29 @@
         }
 
         @keyframes floatSparkle {
-            0% { transform: translateY(100vh) translateX(0) scale(0.5); opacity: 0; }
-            15% { opacity: 0.7; }
-            40% { opacity: 0.9; }
-            70% { opacity: 0.6; transform: translateY(20vh) translateX(20px) scale(1); }
-            100% { transform: translateY(-20vh) translateX(40px) scale(0.8); opacity: 0; }
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0.5);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.7;
+            }
+            40% {
+                opacity: 0.9;
+            }
+            70% {
+                opacity: 0.6;
+                transform: translateY(20vh) translateX(20px) scale(1);
+            }
+            100% {
+                transform: translateY(-20vh) translateX(40px) scale(0.8);
+                opacity: 0;
+            }
         }
 
         @keyframes twinkleGlow {
             0%, 100% { opacity: 0.3; transform: scale(0.8); box-shadow: 0 0 3px rgba(255,215,0,0.4); }
             50% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 12px rgba(255,215,0,0.8); }
-        }
-
-        .lens-flare {
-            position: absolute;
-            pointer-events: none;
-            border-radius: 50%;
-            opacity: 0;
-            animation: flarePulse 6s ease-in-out infinite alternate;
-        }
-
-        @keyframes flarePulse {
-            0% { transform: scale(0.6); opacity: 0; }
-            50% { opacity: 0.4; transform: scale(1.2); }
-            100% { transform: scale(0.8); opacity: 0; }
-        }
-
-        .light-ray {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, rgba(240, 208, 128, 0.3), rgba(255, 220, 150, 0.5), rgba(240, 208, 128, 0.3), transparent);
-            animation: raySweep 8s linear infinite;
-            opacity: 0;
-        }
-
-        @keyframes raySweep {
-            0% { transform: translateX(-100%) rotate(5deg); opacity: 0; }
-            20% { opacity: 0.4; }
-            50% { opacity: 0.6; }
-            80% { opacity: 0.3; }
-            100% { transform: translateX(100%) rotate(5deg); opacity: 0; }
-        }
-
-        /* ========== АКТИВНЫЕ АНИМАЦИИ С ЭФФЕКТОМ ПРУЖИНЫ ========== */
-        @keyframes bounceUp {
-            0% {
-                opacity: 0;
-                transform: translateY(100px);
-            }
-            60% {
-                opacity: 1;
-                transform: translateY(-15px);
-            }
-            80% {
-                transform: translateY(5px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes bounceLeft {
-            0% {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-            60% {
-                opacity: 1;
-                transform: translateX(-15px);
-            }
-            80% {
-                transform: translateX(5px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes bounceRight {
-            0% {
-                opacity: 0;
-                transform: translateX(-100px);
-            }
-            60% {
-                opacity: 1;
-                transform: translateX(15px);
-            }
-            80% {
-                transform: translateX(-5px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes bounceScale {
-            0% {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.1);
-            }
-            75% {
-                transform: scale(0.95);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* Базовые классы для анимированных элементов (скрыты до появления) */
-        .animate-on-scroll {
-            opacity: 0;
-        }
-
-        .animate-on-scroll.animated-bounceUp {
-            animation: bounceUp 0.8s cubic-bezier(0.34, 1.3, 0.55, 1) forwards;
-        }
-
-        .animate-on-scroll.animated-bounceLeft {
-            animation: bounceLeft 0.8s cubic-bezier(0.34, 1.3, 0.55, 1) forwards;
-        }
-
-        .animate-on-scroll.animated-bounceRight {
-            animation: bounceRight 0.8s cubic-bezier(0.34, 1.3, 0.55, 1) forwards;
-        }
-
-        .animate-on-scroll.animated-bounceScale {
-            animation: bounceScale 0.7s cubic-bezier(0.34, 1.3, 0.55, 1) forwards;
         }
 
         /* Основной контент */
@@ -285,10 +188,11 @@
             gap: 2rem;
         }
 
+        /* Рамочка для фото */
         .photo-frame {
-            width: 420px;
-            height: 420px;
-            border-radius: 24px;
+            width: 280px;
+            height: 280px;
+            border-radius: 20px;
             background: rgba(30, 30, 30, 0.7);
             backdrop-filter: blur(4px);
             border: 2px solid rgba(240, 208, 128, 0.6);
@@ -353,8 +257,8 @@
                 gap: 3rem;
             }
             .photo-frame {
-                width: 480px;
-                height: 480px;
+                width: 320px;
+                height: 320px;
             }
             .hero-text {
                 text-align: left;
@@ -444,12 +348,17 @@
             padding: 2rem;
             margin: 1.5rem 0;
             border: 1px solid rgba(240, 208, 128, 0.25);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            transition: all 0.4s ease;
         }
 
-        .plan-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.3);
+        .plan-card.fade-out {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .plan-card.fade-in {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .plan-time {
@@ -488,6 +397,7 @@
             border-color: #f0d080;
         }
 
+        /* Дресс-код */
         .dresscode {
             background: rgba(20, 20, 20, 0.6);
             backdrop-filter: blur(4px);
@@ -502,10 +412,6 @@
             letter-spacing: 4px;
             color: #f0d080;
             margin-bottom: 1rem;
-        }
-
-        .dresscode div {
-            color: #d0c8b8;
         }
 
         /* Напитки */
@@ -595,6 +501,11 @@
             transform: translateY(-2px);
         }
 
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         .flower-note {
             background: rgba(20, 20, 20, 0.6);
             backdrop-filter: blur(4px);
@@ -625,6 +536,21 @@
             transition: all 0.3s ease;
         }
 
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #0a0a0a;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         footer {
             text-align: center;
             padding: 3rem 0 1rem;
@@ -638,7 +564,6 @@
             margin: 2rem 0;
         }
 
-        /* Дополнительное фото */
         .additional-photo {
             display: flex;
             justify-content: center;
@@ -646,9 +571,9 @@
         }
 
         .additional-photo-frame {
-            width: 420px;
-            height: 420px;
-            border-radius: 24px;
+            width: 280px;
+            height: 280px;
+            border-radius: 20px;
             background: rgba(30, 30, 30, 0.7);
             backdrop-filter: blur(4px);
             border: 2px solid rgba(240, 208, 128, 0.6);
@@ -682,9 +607,9 @@
             .section { margin-bottom: 50px; }
             .main-content { padding: 0 16px 60px; }
             .drinks-grid { grid-template-columns: repeat(2, 1fr); }
-            .photo-frame { width: 300px; height: 300px; }
-            .additional-photo-frame { width: 300px; height: 300px; }
+            .photo-frame { width: 220px; height: 220px; }
             .welcome-message { font-size: 0.95rem; margin: 0 1rem 2rem; }
+            .additional-photo-frame { width: 220px; height: 220px; }
         }
     </style>
 </head>
@@ -703,22 +628,21 @@
 <div class="glint-bg" id="glintBg"></div>
 
 <div class="main-content" id="mainContent">
-    <!-- Hero секция с фото и надписью -->
+    <!-- Hero секция -->
     <div class="hero">
         <div class="hero-container">
-            <div class="photo-frame animate-on-scroll" data-animation="bounceScale">
+            <div class="photo-frame">
                 <img id="weddingPhoto" src="" alt="Александр и Анна">
             </div>
             <div class="hero-text">
-                <div class="hero-sub animate-on-scroll" data-animation="bounceUp">Приглашение на свадьбу</div>
-                <div class="hero-names animate-on-scroll" data-animation="bounceUp">Александр & Анна</div>
-                <div class="hero-date animate-on-scroll" data-animation="bounceUp">01.08.2026</div>
+                <div class="hero-sub">Приглашение на свадьбу</div>
+                <div class="hero-names">Александр & Анна</div>
+                <div class="hero-date">01.08.2026</div>
             </div>
         </div>
     </div>
 
-    <!-- ПРИВЕТСТВЕННОЕ МИЛОЕ СЛОВО ПЕРЕД ТАЙМЕРОМ -->
-    <div class="welcome-message animate-on-scroll" data-animation="bounceUp">
+    <div class="welcome-message">
         ✧ Дорогие наши гости ✧<br>
         Мы очень ждали этого дня и хотим разделить его вместе с вами.<br>
         Спасибо, что вы есть в нашей жизни!
@@ -726,7 +650,7 @@
 
     <!-- Таймер -->
     <div class="section" id="timerSection">
-        <div class="timer-wrapper animate-on-scroll" data-animation="bounceUp">
+        <div class="timer-wrapper">
             <div class="timer-title">до свадьбы осталось</div>
             <div class="timer-grid">
                 <div class="timer-block"><div class="timer-number" id="days">0</div><div class="timer-label">дней</div></div>
@@ -739,7 +663,7 @@
 
     <!-- План дня -->
     <div class="section" id="planSection">
-        <div class="plan-card animate-on-scroll" data-animation="bounceLeft" id="planCard1">
+        <div class="plan-card">
             <div class="plan-time">12:45</div>
             <div class="plan-title">Торжественная церемония росписи</div>
             <a class="location-link" href="https://yandex.ru/maps/?text=Таганская+ул.,+44,+Москва" target="_blank">
@@ -747,8 +671,8 @@
             </a>
         </div>
 
-        <div class="plan-card animate-on-scroll" data-animation="bounceRight" id="planCard2">
-            <div class="plan-time">16:00</div>
+        <div class="plan-card">
+            <div class="plan-time">15:00</div>
             <div class="plan-title">Начало свадебного банкета</div>
             <a class="location-link" href="https://yandex.ru/maps/?text=ул.+Исаковского,+37,+корп.+2,+стр.+1,+Москва" target="_blank">
                 <span>⌂</span> Ресторан «Берег»<br>ул. Исаковского, 37, корп. 2, стр. 1
@@ -758,7 +682,7 @@
 
     <!-- Дресс-код -->
     <div class="section" id="dresscodeSection">
-        <div class="dresscode animate-on-scroll" data-animation="bounceUp">
+        <div class="dresscode">
             <div class="dresscode-tag">DRESS CODE</div>
             <div>Элегантные вечерние наряды, костюмы, изысканные аксессуары. Приветствуются лаконичные образы в городском стиле.</div>
         </div>
@@ -766,26 +690,18 @@
 
     <!-- Пожелания вместо цветов -->
     <div class="section" id="wishesSection">
-        <div class="flower-note animate-on-scroll" data-animation="bounceUp">
-            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">✧</div>
+        <div class="flower-note">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">✦</div>
             <div style="font-weight: 500; margin-bottom: 0.8rem;">Дорогие гости!</div>
-            <p style="margin-bottom: 0.8rem;">
-                В преддверии нашего общего праздника мы хотели бы обратиться к вам с одной сердечной просьбой.
-                Сразу после свадьбы мы отправимся в долгожданное путешествие, и, к сожалению, не сможем взять с собой подаренную вами красоту — живые цветы быстро увянут без нашего внимания.
-            </p>
-            <p style="margin-bottom: 0.8rem;">
-                Нам будет бесконечно приятно получить от вас любой другой знак внимания — тёплые слова в конверте, маленький сюрприз, который напомнит о вас, или просто вашу улыбку. Пусть это будет что-то, что вы сами хотели бы нам подарить, — мы будем рады любой неожиданности.
-            </p>
-            <p style="font-size: 0.85rem; color: #f0d080;">
-                Спасибо, что понимаете нас и разделяете этот день!
-            </p>
+            <p style="margin-bottom: 0.8rem;">Будем рады видеть вас без цветов. Ваше внимание и тёплые слова — лучший подарок. Вместо букетов — вклад в наше семейное путешествие.</p>
+            <p style="font-size: 0.85rem; color: #f0d080;">Вместо цветов — эмоции, вместо букетов — общие воспоминания</p>
         </div>
     </div>
 
-    <!-- Напитки с множественным выбором + безалкогольные -->
+    <!-- Напитки и форма -->
     <div class="section" id="drinksSection">
-        <div style="font-size: 1.8rem; font-weight: 300; margin-bottom: 1rem; color:#f0d080;" class="animate-on-scroll" data-animation="bounceUp">Напитки</div>
-        <div class="drinks-grid animate-on-scroll" data-animation="bounceUp" id="drinksContainer">
+        <div style="font-size: 1.8rem; font-weight: 300; margin-bottom: 1rem; color:#f0d080;">Напитки</div>
+        <div class="drinks-grid" id="drinksContainer">
             <div class="drink-card" data-drink="Вино"><span class="drink-emoji">🍷</span><div>Вино</div></div>
             <div class="drink-card" data-drink="Шампанское"><span class="drink-emoji">🥂</span><div>Шампанское</div></div>
             <div class="drink-card" data-drink="Водка"><span class="drink-emoji">🍸</span><div>Водка</div></div>
@@ -793,415 +709,334 @@
             <div class="drink-card" data-drink="Безалкогольные"><span class="drink-emoji">🧃</span><div>Безалкогольные</div></div>
         </div>
 
-        <!-- Форма -->
-        <div class="form-wrapper animate-on-scroll" data-animation="bounceUp" id="formWrapper">
-            <input type="text" id="guestName" placeholder="Ваше имя" autocomplete="off">
+        <div class="form-wrapper">
+            <input type="text" id="guestName" placeholder="Ваше имя *" autocomplete="off">
             <textarea id="guestComment" rows="2" placeholder="Особые пожелания или аллергии"></textarea>
-            <button class="btn" id="submitPreferenceBtn">Подтвердить присутствие</button>
+            <button class="btn" id="submitBtn">Отправить ответ</button>
             <div id="rsvpStatus" class="rsvp-status"></div>
         </div>
 
-        <div class="deadline-badge animate-on-scroll" data-animation="bounceUp" style="margin-top: 1rem;">Пожалуйста, подтвердите участие до 01.07.2026</div>
+        <div class="deadline-badge" style="margin-top: 1rem;">Пожалуйста, подтвердите участие до 01.07.2026</div>
     </div>
 
     <!-- Фотографии -->
     <div class="section">
-        <hr class="animate-on-scroll" data-animation="bounceUp">
-        <div style="opacity: 0.6; font-size: 0.8rem; letter-spacing: 2px; color:#b0a080;" class="animate-on-scroll" data-animation="bounceUp">01.08.2026 · Москва</div>
-        <div style="font-family: 'Playfair Display'; font-size: 1.2rem; margin: 1rem 0; color:#f0d080;" class="animate-on-scroll" data-animation="bounceUp">Ждём вас на нашем празднике!</div>
+        <hr>
+        <div style="opacity: 0.6; font-size: 0.8rem; letter-spacing: 2px; color:#b0a080;">01.08.2026 · Москва</div>
+        <div style="font-family: 'Playfair Display'; font-size: 1.2rem; margin: 1rem 0; color:#f0d080;">Ждём вас на нашем празднике!</div>
         
-        <!-- ДОПОЛНИТЕЛЬНОЕ ФОТО В РАМОЧКЕ -->
-        <div class="additional-photo animate-on-scroll" data-animation="bounceScale">
-            <div class="additional-photo-frame" id="additionalPhotoFrame">
+        <div class="additional-photo">
+            <div class="additional-photo-frame">
                 <img id="additionalPhoto" src="" alt="Александр и Анна">
             </div>
         </div>
-        <hr class="animate-on-scroll" data-animation="bounceUp">
+        <hr>
     </div>
 
-    <footer class="animate-on-scroll" data-animation="bounceUp">
+    <footer>
         Александр и Анна · 1 августа 2026
     </footer>
 </div>
 
-<div id="toastMsg" style="position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#f0d080; color:#0a0a0a; padding:12px 24px; border-radius:50px; font-size:0.8rem; font-weight:500; z-index:1000; opacity:0; transition:opacity 0.3s; pointer-events:none;">Спасибо!</div>
+<div id="toastMsg" style="position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#f0d080; color:#0a0a0a; padding:12px 24px; border-radius:50px; font-size:0.8rem; font-weight:500; z-index:1000; opacity:0; transition:opacity 0.3s; pointer-events:none;"></div>
 
 <script>
-    // ============================================================
-    // ========== НАСТРОЙКИ TELEGRAM (ВСТАВЬТЕ СВОИ ДАННЫЕ) ==========
-    // ============================================================
-    // 🔽 ЗАМЕНИТЕ НА ВАШ ТОКЕН ОТ BOTFATHER (пример: '1234567890:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw')
-    const BOT_TOKEN = '8895424066:AAHgtcHT7uuRIQkXbWWk39wrTkQXfxKr3b8';
-    
-    // 🔽 ЗАМЕНИТЕ НА ВАШ CHAT ID (цифры, которые вы получили из getUpdates)
-    const CHAT_ID = '5740743924';
-    // ============================================================
-    
-    // ---------- АКТИВНАЯ АНИМАЦИЯ ПРИ СКРОЛЛЕ ----------
-    (function setupScrollAnimations() {
-        const animatedElements = document.querySelectorAll('.animate-on-scroll');
-        
-        function animateElement(element) {
-            const animationType = element.getAttribute('data-animation');
-            if (!animationType) return;
-            
-            element.classList.remove('animated-bounceUp', 'animated-bounceLeft', 'animated-bounceRight', 'animated-bounceScale');
-            
-            switch(animationType) {
-                case 'bounceUp':
-                    element.classList.add('animated-bounceUp');
-                    break;
-                case 'bounceLeft':
-                    element.classList.add('animated-bounceLeft');
-                    break;
-                case 'bounceRight':
-                    element.classList.add('animated-bounceRight');
-                    break;
-                case 'bounceScale':
-                    element.classList.add('animated-bounceScale');
-                    break;
-                default:
-                    element.classList.add('animated-bounceUp');
-            }
-        }
-        
-        function resetAnimation(element) {
-            element.classList.remove('animated-bounceUp', 'animated-bounceLeft', 'animated-bounceRight', 'animated-bounceScale');
-        }
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => animateElement(entry.target), 50);
-                } else {
-                    resetAnimation(entry.target);
-                }
-            });
-        }, { threshold: 0.2, rootMargin: '0px 0px -10px 0px' });
-        
-        animatedElements.forEach(el => observer.observe(el));
-        
-        setTimeout(() => {
-            animatedElements.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 50 && rect.bottom > 0) {
-                    animateElement(el);
-                }
-            });
-        }, 300);
-    })();
+    // ═══════════════════════════════════════════════════════════════
+    // 🔧 НАСТРОЙТЕ ЭТИ ПАРАМЕТРЫ ДЛЯ РАБОТЫ С TELEGRAM
+    // ═══════════════════════════════════════════════════════════════
+    const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';  // ЗАМЕНИТЕ НА ТОКЕН ВАШЕГО БОТА
+    const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID_HERE';     // ЗАМЕНИТЕ НА ID ВАШЕГО ЧАТА (можно узнать через @userinfobot)
+    // ═══════════════════════════════════════════════════════════════
 
-    // ---------- ФУНКЦИЯ ОТПРАВКИ В TELEGRAM ----------
-    async function sendToTelegram(name, drinks, comment) {
-        // Проверяем, что токен и chat_id введены
-        if (BOT_TOKEN === 'ВАШ_ТОКЕН_ОТ_TELEGRAM' || CHAT_ID === 'ВАШ_CHAT_ID') {
-            console.warn('⚠️ Вставьте ваш токен и Chat ID в начале скрипта!');
-            return false;
-        }
-        
-        const message = `🪻 НОВЫЙ ГОСТЬ! 🪻
-
-👤 Имя: ${name}
-🥂 Напитки: ${drinks || 'не выбраны'}
-💬 Пожелания: ${comment || 'нет'}
-
-✨ Ждём вас на свадьбе! ✨`;
-        
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-        
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: message,
-                    parse_mode: 'HTML'
-                })
-            });
-            
-            const result = await response.json();
-            if (result.ok) {
-                console.log('✅ Уведомление отправлено в Telegram');
-                return true;
-            } else {
-                console.error('❌ Ошибка Telegram:', result.description);
-                return false;
-            }
-        } catch (error) {
-            console.error('❌ Ошибка соединения:', error);
-            return false;
-        }
-    }
-
-    // ---------- ФОТОГРАФИИ ----------
+    // Фото (замените на свои ссылки)
     const YOUR_PHOTO_URL = "https://sun9-52.userapi.com/s/v1/ig2/2c6zkDh6Wx5y6AAOF_FtAQ-_Fk4vDs_OMLORJjnklQXLDO7_BNPpNaVx7Q04ic6OB_m3AJLCzcUL7Ud2H_jlThc1.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=W6fevN5JpT5tCoGmvT6zPIqMYZ8WRYEZLtzX3ZeWyjk&cs=1920x0";
     const ADDITIONAL_PHOTO_URL = "https://sun9-31.userapi.com/s/v1/ig2/BHUZ9ML_NqIZm0EhkHp_z2Zv03gdLOeM40k38TAd83FL1kb8KxSPZsTpS8GkcyFrad7Pbt_Avk1P558okGcs6hzF.jpg?quality=95&as=32x52,48x78,72x117,108x176,160x260,240x391,360x586,480x781,540x879,640x1042,720x1172,1080x1758,1280x2083,1440x2344,1573x2560&from=bu&u=m9FWixl_FU0HO2uvTAjbf0rVpeyxRkvgfDisSiGvcPw&cs=1573x0";
-    
-    const mainImgElement = document.getElementById('weddingPhoto');
-    if (mainImgElement && YOUR_PHOTO_URL) {
-        mainImgElement.src = YOUR_PHOTO_URL;
-        mainImgElement.onerror = function() {
-            this.style.display = 'none';
-            this.parentElement.style.background = '#1a1a1a';
-            this.parentElement.innerHTML = '<span style="font-size: 2rem; color: #f0d080;">❤️</span>';
-        };
-    }
-    
-    const additionalImgElement = document.getElementById('additionalPhoto');
-    if (additionalImgElement && ADDITIONAL_PHOTO_URL) {
-        additionalImgElement.src = ADDITIONAL_PHOTO_URL;
-        additionalImgElement.onerror = function() {
-            this.style.display = 'none';
-            this.parentElement.style.background = '#1a1a1a';
-            this.parentElement.innerHTML = '<span style="font-size: 2rem; color: #f0d080;">❤️</span>';
+
+    // Загрузка фото
+    const mainImg = document.getElementById('weddingPhoto');
+    if (mainImg && YOUR_PHOTO_URL) {
+        mainImg.src = YOUR_PHOTO_URL;
+        mainImg.onerror = () => {
+            mainImg.style.display = 'none';
+            mainImg.parentElement.innerHTML = '<span style="font-size: 2rem; color: #f0d080;">❤️</span>';
         };
     }
 
-    // ---------- Прелоадер ----------
+    const additionalImg = document.getElementById('additionalPhoto');
+    if (additionalImg && ADDITIONAL_PHOTO_URL) {
+        additionalImg.src = ADDITIONAL_PHOTO_URL;
+        additionalImg.onerror = () => {
+            additionalImg.style.display = 'none';
+            additionalImg.parentElement.innerHTML = '<span style="font-size: 2rem; color: #f0d080;">❤️</span>';
+        };
+    } else if (additionalImg && !ADDITIONAL_PHOTO_URL) {
+        additionalImg.style.display = 'none';
+        additionalImg.parentElement.style.background = '#1a1a1a';
+        additionalImg.parentElement.innerHTML = '<span style="font-size: 2rem; color: #f0d080;">❤️</span>';
+    }
+
+    // Прелоадер
     const preloader = document.getElementById('preloader');
     const mainContent = document.getElementById('mainContent');
-
+    
     function hidePreloader() {
         preloader.classList.add('hide');
         mainContent.classList.add('visible');
-        setTimeout(() => {
-            preloader.style.display = 'none';
-        }, 1300);
+        setTimeout(() => preloader.style.display = 'none', 1300);
     }
-
     preloader.addEventListener('click', hidePreloader);
-    setTimeout(() => {
-        if (preloader && preloader.style.display !== 'none') hidePreloader();
-    }, 5000);
+    setTimeout(hidePreloader, 5000);
 
-    // ---------- СОЗДАНИЕ МЕРЦАЮЩИХ БЛИКОВ ----------
+    // Создание мерцающих бликов
     (function createGlints() {
         const bg = document.getElementById('glintBg');
         if (!bg) return;
-
-        const glintColors = [
-            'rgba(240, 208, 128, 0.4)',
-            'rgba(255, 220, 150, 0.35)',
-            'rgba(255, 200, 100, 0.4)',
-            'rgba(245, 210, 140, 0.38)',
-            'rgba(255, 230, 170, 0.3)'
-        ];
-
+        const colors = ['rgba(240, 208, 128, 0.4)', 'rgba(255, 220, 150, 0.35)', 'rgba(255, 200, 100, 0.4)'];
+        
         function createLightGlint() {
             const glint = document.createElement('div');
             glint.classList.add('light-glint');
             const size = 150 + Math.random() * 200;
-            glint.style.width = size + 'px';
-            glint.style.height = size + 'px';
-            glint.style.left = Math.random() * 100 + '%';
-            glint.style.top = Math.random() * 100 + '%';
-            glint.style.background = glintColors[Math.floor(Math.random() * glintColors.length)];
-            glint.style.animationDuration = 15 + Math.random() * 10 + 's';
-            glint.style.animationDelay = Math.random() * -20 + 's';
+            glint.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${15+Math.random()*10}s`;
             bg.appendChild(glint);
-            setTimeout(() => {
-                if (glint && glint.remove) glint.remove();
-            }, 25000);
+            setTimeout(() => glint.remove(), 25000);
         }
-
+        
         function createSparkle() {
             const spark = document.createElement('div');
             spark.classList.add('sparkle');
             const size = 3 + Math.random() * 8;
-            spark.style.width = size + 'px';
-            spark.style.height = size + 'px';
-            spark.style.left = Math.random() * 100 + '%';
-            const duration = 6 + Math.random() * 8;
-            spark.style.animationDuration = duration + 's';
-            spark.style.animationDelay = Math.random() * -15 + 's';
-            spark.style.backgroundColor = `rgba(255, 215, 120, ${0.6 + Math.random() * 0.4})`;
+            spark.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:rgba(255,215,120,${0.6+Math.random()*0.4});animation-duration:${6+Math.random()*8}s`;
             bg.appendChild(spark);
-            setTimeout(() => {
-                if (spark && spark.remove) spark.remove();
-            }, duration * 1000 + 3000);
+            setTimeout(() => spark.remove(), 12000);
         }
-
-        function createLensFlare() {
-            const flare = document.createElement('div');
-            flare.classList.add('lens-flare');
-            const size = 40 + Math.random() * 60;
-            flare.style.width = size + 'px';
-            flare.style.height = size + 'px';
-            flare.style.left = Math.random() * 100 + '%';
-            flare.style.top = Math.random() * 100 + '%';
-            flare.style.background = `radial-gradient(circle, rgba(255, 220, 140, 0.5), rgba(255, 200, 100, 0.2))`;
-            flare.style.animationDuration = 5 + Math.random() * 7 + 's';
-            flare.style.animationDelay = Math.random() * -10 + 's';
-            bg.appendChild(flare);
-            setTimeout(() => {
-                if (flare && flare.remove) flare.remove();
-            }, 12000);
-        }
-
-        function createLightRay() {
-            const ray = document.createElement('div');
-            ray.classList.add('light-ray');
-            ray.style.top = Math.random() * 100 + '%';
-            ray.style.animationDuration = 7 + Math.random() * 5 + 's';
-            ray.style.animationDelay = Math.random() * -15 + 's';
-            bg.appendChild(ray);
-            setTimeout(() => {
-                if (ray && ray.remove) ray.remove();
-            }, 12000);
-        }
-
-        for(let i = 0; i < 15; i++) setTimeout(() => createLightGlint(), i * 300);
-        for(let i = 0; i < 80; i++) setTimeout(() => createSparkle(), i * 80);
-        for(let i = 0; i < 30; i++) setTimeout(() => createLensFlare(), i * 200);
-        for(let i = 0; i < 12; i++) setTimeout(() => createLightRay(), i * 500);
-
-        setInterval(() => { if (bg.children.length < 80) createLightGlint(); }, 3000);
-        setInterval(() => {
-            if (bg.children.length < 120) { for(let i = 0; i < 2; i++) createSparkle(); }
-            else { createSparkle(); }
-        }, 400);
-        setInterval(() => { if (bg.children.length < 100) createLensFlare(); }, 2500);
-        setInterval(() => { if (bg.children.length < 60) createLightRay(); }, 4000);
+        
+        for(let i = 0; i < 20; i++) setTimeout(createLightGlint, i * 300);
+        for(let i = 0; i < 60; i++) setTimeout(createSparkle, i * 80);
+        setInterval(createLightGlint, 4000);
+        setInterval(createSparkle, 500);
     })();
 
-    // ---------- Таймер ----------
+    // Таймер
     function updateTimer() {
-        const weddingDate = new Date(2026, 7, 1, 0, 0, 0);
-        const now = new Date();
-        const diff = weddingDate - now;
-
+        const weddingDate = new Date(2026, 7, 1);
+        const diff = weddingDate - new Date();
         if (diff <= 0) {
-            document.getElementById('days').innerText = '0';
-            document.getElementById('hours').innerText = '0';
-            document.getElementById('minutes').innerText = '0';
-            document.getElementById('seconds').innerText = '0';
+            ['days','hours','minutes','seconds'].forEach(id => document.getElementById(id).innerText = '0');
             return;
         }
-
-        document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-        document.getElementById('hours').innerText = Math.floor((diff % (86400000)) / (3600000));
+        document.getElementById('days').innerText = Math.floor(diff / 86400000);
+        document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
         document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
         document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
     }
     updateTimer();
     setInterval(updateTimer, 1000);
 
-    // ---------- Логика множественного выбора напитков и отправка в Telegram ----------
-    (function() {
-        const STORAGE_KEY = 'wedding_glint_preferences_final';
-        let selectedDrinks = new Set();
-        let savedPref = null;
-
-        const drinkDivs = document.querySelectorAll('.drink-card');
-        const guestName = document.getElementById('guestName');
-        const guestComment = document.getElementById('guestComment');
-        const submitBtn = document.getElementById('submitPreferenceBtn');
-        const statusDiv = document.getElementById('rsvpStatus');
-        const toast = document.getElementById('toastMsg');
-
-        function showToast(msg) {
-            toast.innerText = msg || 'Спасибо!';
-            toast.style.opacity = '1';
-            setTimeout(() => toast.style.opacity = '0', 3000);
-        }
-
-        function updateDrinkUI() {
-            drinkDivs.forEach(card => {
-                const drinkVal = card.getAttribute('data-drink');
-                if (selectedDrinks.has(drinkVal)) card.classList.add('selected');
-                else card.classList.remove('selected');
-            });
-        }
-
-        function loadPref() {
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (!raw) return null;
-                const data = JSON.parse(raw);
-                if (data && data.name) return data;
-                return null;
-            } catch(e) { return null; }
-        }
-
-        function applyPref(pref) {
-            if (!pref) return;
-            if (pref.name) guestName.value = pref.name;
-            if (pref.comment) guestComment.value = pref.comment;
-            if (pref.drinks && Array.isArray(pref.drinks)) {
-                selectedDrinks.clear();
-                pref.drinks.forEach(d => selectedDrinks.add(d));
-                updateDrinkUI();
-                statusDiv.innerHTML = `✓ ${pref.name}, ваш выбор: ${Array.from(selectedDrinks).join(', ')}. Спасибо!`;
+    // Анимация появления
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.remove('fade-out');
+                entry.target.classList.add('fade-in');
             }
-            savedPref = pref;
-        }
+        });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.plan-card, .dresscode, .flower-note, .form-wrapper, .welcome-message').forEach(el => {
+        el.classList.add('fade-out');
+        observer.observe(el);
+    });
 
-        function savePref(drinksArray, name, comment) {
-            if (!name.trim()) { showToast('Укажите ваше имя'); return false; }
-            
-            const prefObj = { drinks: drinksArray, name: name.trim(), comment: comment.trim(), date: new Date().toISOString() };
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(prefObj));
-            savedPref = prefObj;
-            statusDiv.innerHTML = `✦ ${name.trim()}, спасибо! ${comment.trim() ? `Ваш комментарий учтён.` : ''} Ждём вас!`;
-            showToast(`Спасибо, ${name.trim()}!`);
-            return true;
-        }
+    // ═══════════════════════════════════════════════════════════════
+    // ОСНОВНАЯ ЛОГИКА: ОТПРАВКА В TELEGRAM С ЛЮБОГО УСТРОЙСТВА
+    // ═══════════════════════════════════════════════════════════════
 
-        function onDrinkClick(e) {
-            const card = e.currentTarget;
-            const drinkVal = card.getAttribute('data-drink');
-            if (selectedDrinks.has(drinkVal)) {
-                selectedDrinks.delete(drinkVal);
+    let selectedDrinks = new Set();
+    const drinkCards = document.querySelectorAll('.drink-card');
+    const guestNameInput = document.getElementById('guestName');
+    const guestCommentInput = document.getElementById('guestComment');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusDiv = document.getElementById('rsvpStatus');
+    const toast = document.getElementById('toastMsg');
+
+    // Выбор напитков
+    drinkCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const drink = card.getAttribute('data-drink');
+            if (selectedDrinks.has(drink)) {
+                selectedDrinks.delete(drink);
                 card.classList.remove('selected');
             } else {
-                selectedDrinks.add(drinkVal);
+                selectedDrinks.add(drink);
                 card.classList.add('selected');
             }
             card.style.transform = 'scale(0.96)';
-            setTimeout(() => { card.style.transform = ''; }, 150);
+            setTimeout(() => card.style.transform = '', 150);
+        });
+    });
+
+    function showToastMessage(msg, isError = false) {
+        toast.innerText = msg;
+        toast.style.background = isError ? '#d32f2f' : '#f0d080';
+        toast.style.color = isError ? '#fff' : '#0a0a0a';
+        toast.style.opacity = '1';
+        setTimeout(() => toast.style.opacity = '0', 3000);
+        setTimeout(() => toast.style.background = '#f0d080', 3000);
+    }
+
+    // Функция отправки в Telegram
+    async function sendToTelegram(name, drinks, comment) {
+        // Проверяем настройки
+        if (TELEGRAM_BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE' || TELEGRAM_CHAT_ID === 'YOUR_CHAT_ID_HERE') {
+            console.warn('⚠️ Telegram не настроен. Укажите BOT_TOKEN и CHAT_ID');
+            showToastMessage('⚠️ Уведомление не отправлено (бот не настроен)', true);
+            return false;
         }
 
-        async function onSubmit() {
-            const name = guestName.value;
-            const comment = guestComment.value;
-            let drinksArray = Array.from(selectedDrinks);
+        const drinksText = drinks.length > 0 ? drinks.join(', ') : 'не выбраны';
+        const commentText = comment ? `\n📝 Комментарий: ${comment}` : '';
+        
+        const message = `🎉 НОВЫЙ ГОСТЬ НА СВАДЬБЕ! 🎉\n\n👤 Имя: ${name}\n🍷 Предпочитаемые напитки: ${drinksText}${commentText}\n📱 Устройство: ${navigator.userAgent.substring(0, 100)}\n⏰ Время: ${new Date().toLocaleString('ru-RU')}`;
+        
+        const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+        
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: message,
+                    parse_mode: 'HTML'
+                })
+            });
             
-            if (drinksArray.length === 0 && savedPref && savedPref.drinks && savedPref.drinks.length > 0) {
-                savedPref.drinks.forEach(d => selectedDrinks.add(d));
-                updateDrinkUI();
-                drinksArray = Array.from(selectedDrinks);
+            const data = await response.json();
+            
+            if (data.ok) {
+                console.log('✅ Отправлено в Telegram:', data);
+                return true;
+            } else {
+                console.error('❌ Ошибка Telegram:', data);
+                showToastMessage('❌ Ошибка отправки уведомления', true);
+                return false;
             }
-            
-            // Проверка имени
-            if (!name.trim()) {
-                showToast('Пожалуйста, укажите ваше имя');
-                return;
-            }
-            
-            // Сохраняем в localStorage
-            savePref(drinksArray, name, comment);
-            
-            // 🚀 ОТПРАВЛЯЕМ В TELEGRAM 🚀
-            const drinksText = drinksArray.length > 0 ? drinksArray.join(', ') : 'не выбраны';
-            const success = await sendToTelegram(name.trim(), drinksText, comment.trim());
-            
-            if (!success) {
-                console.warn('Не удалось отправить уведомление в Telegram, но данные сохранены локально');
-            }
+        } catch (error) {
+            console.error('❌ Ошибка соединения с Telegram:', error);
+            showToastMessage('❌ Ошибка соединения', true);
+            return false;
         }
+    }
 
-        drinkDivs.forEach(card => card.addEventListener('click', onDrinkClick));
-        const stored = loadPref();
-        if (stored) {
-            if (stored.drinks && stored.drinks.length > 0) {
-                stored.drinks.forEach(d => selectedDrinks.add(d));
-                updateDrinkUI();
-            }
-            applyPref(stored);
+    // Сохранение в localStorage (для отображения статуса)
+    function saveToLocalStorage(name, drinks, comment) {
+        const data = {
+            name: name,
+            drinks: Array.from(drinks),
+            comment: comment,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('wedding_rsvp', JSON.stringify(data));
+    }
+
+    function loadFromLocalStorage() {
+        const saved = localStorage.getItem('wedding_rsvp');
+        if (saved) {
+            try {
+                const data = JSON.parse(saved);
+                if (data.name) {
+                    guestNameInput.value = data.name;
+                    if (data.comment) guestCommentInput.value = data.comment;
+                    if (data.drinks && data.drinks.length) {
+                        data.drinks.forEach(drink => selectedDrinks.add(drink));
+                        drinkCards.forEach(card => {
+                            if (selectedDrinks.has(card.getAttribute('data-drink'))) {
+                                card.classList.add('selected');
+                            }
+                        });
+                    }
+                    statusDiv.innerHTML = `✓ ${data.name}, ваш ответ сохранён. Спасибо!`;
+                }
+            } catch(e) {}
         }
-        submitBtn.addEventListener('click', onSubmit);
-    })();
+    }
+
+    // ОСНОВНАЯ ФУНКЦИЯ ОТПРАВКИ
+    async function submitResponse() {
+        const name = guestNameInput.value.trim();
+        if (!name) {
+            showToastMessage('Пожалуйста, укажите ваше имя', true);
+            guestNameInput.style.borderColor = '#d32f2f';
+            setTimeout(() => guestNameInput.style.borderColor = '', 2000);
+            return;
+        }
+        
+        if (selectedDrinks.size === 0) {
+            showToastMessage('Пожалуйста, выберите хотя бы один напиток', true);
+            return;
+        }
+        
+        const comment = guestCommentInput.value.trim();
+        const drinksArray = Array.from(selectedDrinks);
+        
+        // Блокируем кнопку на время отправки
+        submitBtn.disabled = true;
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="loading-spinner"></span> Отправка...';
+        
+        try {
+            // Отправляем в Telegram
+            const telegramSent = await sendToTelegram(name, drinksArray, comment);
+            
+            if (telegramSent) {
+                // Сохраняем локально
+                saveToLocalStorage(name, drinksArray, comment);
+                statusDiv.innerHTML = `✓ ${name}, ваш ответ отправлен! Спасибо за подтверждение! 🎉`;
+                showToastMessage('✅ Ответ успешно отправлен!');
+                
+                // Дополнительное уведомление в консоль для отладки
+                console.log('📨 Отправлены данные:', { name, drinks: drinksArray, comment });
+            } else {
+                // Если Telegram не отправился, но сохраняем локально
+                saveToLocalStorage(name, drinksArray, comment);
+                statusDiv.innerHTML = `⚠️ ${name}, данные сохранены локально. Спасибо!`;
+                showToastMessage('⚠️ Данные сохранены локально', true);
+            }
+        } catch (error) {
+            console.error('Критическая ошибка:', error);
+            statusDiv.innerHTML = `❌ Ошибка при отправке. Пожалуйста, попробуйте позже.`;
+            showToastMessage('❌ Ошибка отправки. Попробуйте ещё раз', true);
+        } finally {
+            // Разблокируем кнопку
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+        }
+    }
+
+    // Загружаем сохранённые данные при загрузке страницы
+    loadFromLocalStorage();
+    
+    // Назначаем обработчик на кнопку
+    submitBtn.addEventListener('click', submitResponse);
+    
+    // Также можно отправлять по Enter в поле имени
+    guestNameInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            submitResponse();
+        }
+    });
+    
+    // Выводим в консоль информацию о настройках (для отладки)
+    console.log('📱 Свадебное приглашение загружено');
+    if (TELEGRAM_BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE' || TELEGRAM_CHAT_ID === 'YOUR_CHAT_ID_HERE') {
+        console.warn('⚠️ ВНИМАНИЕ: Telegram бот не настроен! Укажите TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в коде.');
+        showToastMessage('⚠️ Уведомления в Telegram не настроены', true);
+    } else {
+        console.log('✅ Telegram бот настроен, уведомления будут отправляться');
+    }
 </script>
 </body>
 </html>
