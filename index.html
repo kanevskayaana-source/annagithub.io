@@ -744,8 +744,8 @@
     // ═══════════════════════════════════════════════════════════════
     // 🔧 НАСТРОЙТЕ ЭТИ ПАРАМЕТРЫ ДЛЯ РАБОТЫ С TELEGRAM
     // ═══════════════════════════════════════════════════════════════
-    const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';  // ЗАМЕНИТЕ НА ТОКЕН ВАШЕГО БОТА
-    const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID_HERE';     // ЗАМЕНИТЕ НА ID ВАШЕГО ЧАТА (можно узнать через @userinfobot)
+    const TELEGRAM_BOT_TOKEN = '8895424066:AAHgtcHT7uuRIQkXbWWk39wrTkQXfxKr3b8';  // ЗАМЕНИТЕ НА ТОКЕН ВАШЕГО БОТА
+    const TELEGRAM_CHAT_ID = '5740743924';     // ЗАМЕНИТЕ НА ID ВАШЕГО ЧАТА (можно узнать через @userinfobot)
     // ═══════════════════════════════════════════════════════════════
 
     // Фото (замените на свои ссылки)
@@ -887,7 +887,7 @@
     // Функция отправки в Telegram
     async function sendToTelegram(name, drinks, comment) {
         // Проверяем настройки
-        if (TELEGRAM_BOT_TOKEN === 'YOUR_BOT_TOKEN_HERE' || TELEGRAM_CHAT_ID === 'YOUR_CHAT_ID_HERE') {
+        if (TELEGRAM_BOT_TOKEN === '8895424066:AAHgtcHT7uuRIQkXbWWk39wrTkQXfxKr3b8' || TELEGRAM_CHAT_ID === '5740743924') {
             console.warn('⚠️ Telegram не настроен. Укажите BOT_TOKEN и CHAT_ID');
             showToastMessage('⚠️ Уведомление не отправлено (бот не настроен)', true);
             return false;
