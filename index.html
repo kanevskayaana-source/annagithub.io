@@ -250,9 +250,6 @@
             animation: bounceScale 0.7s cubic-bezier(0.34, 1.3, 0.55, 1) forwards;
         }
 
-        /* Специфичные начальные состояния (не нужны, т.к. анимация сама задаёт начальные значения) */
-        /* Но оставляем классы для data-атрибутов */
-
         /* Основной контент */
         .main-content {
             max-width: 1200px;
@@ -830,19 +827,26 @@
 <div id="toastMsg" style="position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#f0d080; color:#0a0a0a; padding:12px 24px; border-radius:50px; font-size:0.8rem; font-weight:500; z-index:1000; opacity:0; transition:opacity 0.3s; pointer-events:none;">Спасибо!</div>
 
 <script>
-    // ---------- АКТИВНАЯ АНИМАЦИЯ ПРИ СКРОЛЛЕ (с эффектом выпрыгивания) ----------
+    // ============================================================
+    // ========== НАСТРОЙКИ TELEGRAM (ВСТАВЬТЕ СВОИ ДАННЫЕ) ==========
+    // ============================================================
+    // 🔽 ЗАМЕНИТЕ НА ВАШ ТОКЕН ОТ BOTFATHER (пример: '1234567890:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw')
+    const BOT_TOKEN = '8895424066:AAHgtcHT7uuRIQkXbWWk39wrTkQXfxKr3b8';
+    
+    // 🔽 ЗАМЕНИТЕ НА ВАШ CHAT ID (цифры, которые вы получили из getUpdates)
+    const CHAT_ID = '5740743924';
+    // ============================================================
+    
+    // ---------- АКТИВНАЯ АНИМАЦИЯ ПРИ СКРОЛЛЕ ----------
     (function setupScrollAnimations() {
         const animatedElements = document.querySelectorAll('.animate-on-scroll');
         
-        // Функция для применения анимации в зависимости от типа
         function animateElement(element) {
             const animationType = element.getAttribute('data-animation');
             if (!animationType) return;
             
-            // Убираем предыдущие классы анимации, если есть
             element.classList.remove('animated-bounceUp', 'animated-bounceLeft', 'animated-bounceRight', 'animated-bounceScale');
             
-            // Добавляем соответствующий класс
             switch(animationType) {
                 case 'bounceUp':
                     element.classList.add('animated-bounceUp');
@@ -861,33 +865,22 @@
             }
         }
         
-        // Функция для сброса анимации (удаляем классы, чтобы при повторном появлении анимация сработала заново)
         function resetAnimation(element) {
             element.classList.remove('animated-bounceUp', 'animated-bounceLeft', 'animated-bounceRight', 'animated-bounceScale');
         }
         
-        // Используем Intersection Observer с порогом 0.2 для более раннего срабатывания
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    // Элемент появился в области видимости — анимируем с небольшой задержкой для последовательности
-                    setTimeout(() => {
-                        animateElement(entry.target);
-                    }, 50);
+                    setTimeout(() => animateElement(entry.target), 50);
                 } else {
-                    // Элемент вышел из области видимости — сбрасываем анимацию, чтобы при повторном входе она повторилась
                     resetAnimation(entry.target);
                 }
             });
-        }, { 
-            threshold: 0.2,      // Срабатывает, когда 20% элемента видимы
-            rootMargin: '0px 0px -10px 0px'  // Небольшой отступ
-        });
+        }, { threshold: 0.2, rootMargin: '0px 0px -10px 0px' });
         
-        // Наблюдаем за каждым анимируемым элементом
         animatedElements.forEach(el => observer.observe(el));
         
-        // Дополнительная проверка для элементов, которые уже видны при загрузке
         setTimeout(() => {
             animatedElements.forEach(el => {
                 const rect = el.getBoundingClientRect();
@@ -898,16 +891,57 @@
         }, 300);
     })();
 
-    // ---------- УСТАНОВИТЕ ССЫЛКУ НА ВАШЕ ОСНОВНОЕ ФОТО ----------
+    // ---------- ФУНКЦИЯ ОТПРАВКИ В TELEGRAM ----------
+    async function sendToTelegram(name, drinks, comment) {
+        // Проверяем, что токен и chat_id введены
+        if (BOT_TOKEN === 'ВАШ_ТОКЕН_ОТ_TELEGRAM' || CHAT_ID === 'ВАШ_CHAT_ID') {
+            console.warn('⚠️ Вставьте ваш токен и Chat ID в начале скрипта!');
+            return false;
+        }
+        
+        const message = `🪻 НОВЫЙ ГОСТЬ! 🪻
+
+👤 Имя: ${name}
+🥂 Напитки: ${drinks || 'не выбраны'}
+💬 Пожелания: ${comment || 'нет'}
+
+✨ Ждём вас на свадьбе! ✨`;
+        
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'HTML'
+                })
+            });
+            
+            const result = await response.json();
+            if (result.ok) {
+                console.log('✅ Уведомление отправлено в Telegram');
+                return true;
+            } else {
+                console.error('❌ Ошибка Telegram:', result.description);
+                return false;
+            }
+        } catch (error) {
+            console.error('❌ Ошибка соединения:', error);
+            return false;
+        }
+    }
+
+    // ---------- ФОТОГРАФИИ ----------
     const YOUR_PHOTO_URL = "https://sun9-52.userapi.com/s/v1/ig2/2c6zkDh6Wx5y6AAOF_FtAQ-_Fk4vDs_OMLORJjnklQXLDO7_BNPpNaVx7Q04ic6OB_m3AJLCzcUL7Ud2H_jlThc1.jpg?quality=95&as=32x43,48x64,72x96,108x144,160x213,240x320,360x480,480x640,540x720,640x853,720x960,1080x1440,1280x1707,1440x1920,1920x2560&from=bu&u=W6fevN5JpT5tCoGmvT6zPIqMYZ8WRYEZLtzX3ZeWyjk&cs=1920x0";
-    
     const ADDITIONAL_PHOTO_URL = "https://sun9-31.userapi.com/s/v1/ig2/BHUZ9ML_NqIZm0EhkHp_z2Zv03gdLOeM40k38TAd83FL1kb8KxSPZsTpS8GkcyFrad7Pbt_Avk1P558okGcs6hzF.jpg?quality=95&as=32x52,48x78,72x117,108x176,160x260,240x391,360x586,480x781,540x879,640x1042,720x1172,1080x1758,1280x2083,1440x2344,1573x2560&from=bu&u=m9FWixl_FU0HO2uvTAjbf0rVpeyxRkvgfDisSiGvcPw&cs=1573x0";
     
     const mainImgElement = document.getElementById('weddingPhoto');
     if (mainImgElement && YOUR_PHOTO_URL) {
         mainImgElement.src = YOUR_PHOTO_URL;
         mainImgElement.onerror = function() {
-            console.warn("Не удалось загрузить основное фото. Пожалуйста, проверьте URL.");
             this.style.display = 'none';
             this.parentElement.style.background = '#1a1a1a';
             this.parentElement.innerHTML = '<span style="font-size: 2rem; color: #f0d080;">❤️</span>';
@@ -918,15 +952,10 @@
     if (additionalImgElement && ADDITIONAL_PHOTO_URL) {
         additionalImgElement.src = ADDITIONAL_PHOTO_URL;
         additionalImgElement.onerror = function() {
-            console.warn("Не удалось загрузить дополнительное фото. Пожалуйста, проверьте URL.");
             this.style.display = 'none';
             this.parentElement.style.background = '#1a1a1a';
             this.parentElement.innerHTML = '<span style="font-size: 2rem; color: #f0d080;">❤️</span>';
         };
-    } else if (additionalImgElement && !ADDITIONAL_PHOTO_URL) {
-        additionalImgElement.style.display = 'none';
-        additionalImgElement.parentElement.style.background = '#1a1a1a';
-        additionalImgElement.parentElement.innerHTML = '<span style="font-size: 2rem; color: #f0d080;">❤️</span>';
     }
 
     // ---------- Прелоадер ----------
@@ -1058,7 +1087,7 @@
     updateTimer();
     setInterval(updateTimer, 1000);
 
-    // ---------- Логика множественного выбора напитков ----------
+    // ---------- Логика множественного выбора напитков и отправка в Telegram ----------
     (function() {
         const STORAGE_KEY = 'wedding_glint_preferences_final';
         let selectedDrinks = new Set();
@@ -1074,7 +1103,7 @@
         function showToast(msg) {
             toast.innerText = msg || 'Спасибо!';
             toast.style.opacity = '1';
-            setTimeout(() => toast.style.opacity = '0', 2800);
+            setTimeout(() => toast.style.opacity = '0', 3000);
         }
 
         function updateDrinkUI() {
@@ -1110,13 +1139,12 @@
 
         function savePref(drinksArray, name, comment) {
             if (!name.trim()) { showToast('Укажите ваше имя'); return false; }
-            if (drinksArray.length === 0) { showToast('Выберите хотя бы один напиток'); return false; }
             
             const prefObj = { drinks: drinksArray, name: name.trim(), comment: comment.trim(), date: new Date().toISOString() };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(prefObj));
             savedPref = prefObj;
-            statusDiv.innerHTML = `✦ ${name.trim()}, вы выбрали: ${drinksArray.join(', ')}. ${comment.trim() ? `Ваш комментарий учтён.` : ''} Ждём вас!`;
-            showToast(`Вы выбрали: ${drinksArray.join(', ')}`);
+            statusDiv.innerHTML = `✦ ${name.trim()}, спасибо! ${comment.trim() ? `Ваш комментарий учтён.` : ''} Ждём вас!`;
+            showToast(`Спасибо, ${name.trim()}!`);
             return true;
         }
 
@@ -1134,16 +1162,33 @@
             setTimeout(() => { card.style.transform = ''; }, 150);
         }
 
-        function onSubmit() {
+        async function onSubmit() {
             const name = guestName.value;
             const comment = guestComment.value;
             let drinksArray = Array.from(selectedDrinks);
+            
             if (drinksArray.length === 0 && savedPref && savedPref.drinks && savedPref.drinks.length > 0) {
                 savedPref.drinks.forEach(d => selectedDrinks.add(d));
                 updateDrinkUI();
                 drinksArray = Array.from(selectedDrinks);
             }
+            
+            // Проверка имени
+            if (!name.trim()) {
+                showToast('Пожалуйста, укажите ваше имя');
+                return;
+            }
+            
+            // Сохраняем в localStorage
             savePref(drinksArray, name, comment);
+            
+            // 🚀 ОТПРАВЛЯЕМ В TELEGRAM 🚀
+            const drinksText = drinksArray.length > 0 ? drinksArray.join(', ') : 'не выбраны';
+            const success = await sendToTelegram(name.trim(), drinksText, comment.trim());
+            
+            if (!success) {
+                console.warn('Не удалось отправить уведомление в Telegram, но данные сохранены локально');
+            }
         }
 
         drinkDivs.forEach(card => card.addEventListener('click', onDrinkClick));
@@ -1157,103 +1202,6 @@
         }
         submitBtn.addEventListener('click', onSubmit);
     })();
-<script>
-    // ---------- НАСТРОЙКИ TELEGRAM ----------
-    // ВСТАВЬТЕ ВАШИ ДАННЫЕ (замените на свои):
-    const BOT_TOKEN = 'ВАШ_ТОКЕН_ОТ_BOTFATHER';
-    const CHAT_ID = 'ВАШ_CHAT_ID';  // число из getUpdates
-    
-    // ---------- ФУНКЦИЯ ОТПРАВКИ В TELEGRAM ----------
-    async function sendToTelegram(name, drinks, comment) {
-        // Формируем красивое сообщение
-        const message = `🪻 **НОВЫЙ ГОСТЬ!** 🪻
-        
-👤 **Имя:** ${name}
-🥂 **Напитки:** ${drinks || 'не указаны'}
-💬 **Пожелания:** ${comment || 'нет'}
-
-✨ *Ждём вас на свадьбе!* ✨`;
-        
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-        
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: message,
-                    parse_mode: 'Markdown'
-                })
-            });
-            
-            if (response.ok) {
-                console.log('Уведомление отправлено в Telegram');
-            } else {
-                console.error('Ошибка отправки:', await response.text());
-            }
-        } catch (error) {
-            console.error('Ошибка:', error);
-        }
-    }
-</script>
-<script>
-    // ---------- НАСТРОЙКИ TELEGRAM ----------
-    // ВСТАВЬТЕ ВАШИ ДАННЫЕ (замените на свои):
-    const BOT_TOKEN = '8895424066:AAHgtcHT7uuRIQkXbWWk39wrTkQXfxKr3b8';
-    const CHAT_ID = '5740743924';  // число из getUpdates
-    
-    // ---------- ФУНКЦИЯ ОТПРАВКИ В TELEGRAM ----------
-    async function sendToTelegram(name, drinks, comment) {
-        // Формируем красивое сообщение
-        const message = `🪻 **НОВЫЙ ГОСТЬ!** 🪻
-        
-👤 **Имя:** ${name}
-🥂 **Напитки:** ${drinks || 'не указаны'}
-💬 **Пожелания:** ${comment || 'нет'}
-
-✨ *Ждём вас на свадьбе!* ✨`;
-        
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-        
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: CHAT_ID,
-                    text: message,
-                    parse_mode: 'Markdown'
-                })
-            });
-            
-            if (response.ok) {
-                console.log('Уведомление отправлено в Telegram');
-            } else {
-                console.error('Ошибка отправки:', await response.text());
-            }
-        } catch (error) {
-            console.error('Ошибка:', error);
-        }
-    }
-</script>
-function onSubmit() {
-    const name = guestName.value;
-    const comment = guestComment.value;
-    let drinksArray = Array.from(selectedDrinks);
-    
-    if (drinksArray.length === 0 && savedPref && savedPref.drinks && savedPref.drinks.length > 0) {
-        savedPref.drinks.forEach(d => selectedDrinks.add(d));
-        updateDrinkUI();
-        drinksArray = Array.from(selectedDrinks);
-    }
-    
-    // Сохраняем в localStorage
-    savePref(drinksArray, name, comment);
-    
-    // ✨ ОТПРАВЛЯЕМ В TELEGRAM ✨
-    sendToTelegram(name, drinksArray.join(', '), comment);
-}
 </script>
 </body>
 </html>
